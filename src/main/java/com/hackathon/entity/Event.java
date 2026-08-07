@@ -44,5 +44,10 @@ public class Event {
     private EventStatus status;
 
     private String registrationUrl;
+
+    /** QR code that opens the public participant registration page. */
     private String qrCodeUrl;
+
+    /** QR code used by venue staff to open the participant check-in flow. */
+    private String checkInQrCodeUrl;
 }

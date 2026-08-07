@@ -369,7 +369,8 @@ Response: `201 Created`
   "endDate": "2026-07-02",
   "status": "OPEN",
   "registrationUrl": "http://localhost:8080/participants/register?eventId=1",
-  "qrCodeUrl": "http://localhost:8080/uploads/qrcodes/1-registration.png"
+  "qrCodeUrl": "http://localhost:8080/uploads/qrcodes/1-registration.png",
+  "checkInQrCodeUrl": "http://localhost:8080/uploads/qrcodes/1-check-in.png"
 }
 ```
 
@@ -378,7 +379,9 @@ Notes:
 - `endDate` before `startDate` returns `400 Bad Request`.
 - Undated events (no startDate/endDate) default to `OPEN` status.
 - Single-day event: omit `endDate` or set it equal to `startDate`.
-- QR code is auto-generated and stored in `/uploads/qrcodes/`.
+- `qrCodeUrl` is the registration QR and opens the participant registration page.
+- `checkInQrCodeUrl` is the venue check-in QR and opens the email/code verification flow.
+- Both QR codes are auto-generated and stored in `/uploads/qrcodes/`.
 
 ### Get All Events
 

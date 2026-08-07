@@ -22,10 +22,14 @@ public class QrCodeService {
     }
 
     public String generateQrCode(String content) {
+        return generateQrCode(content, "registration");
+    }
+
+    public String generateQrCode(String content, String purpose) {
         try {
             Path directory = fileStorageService.getUploadRoot().resolve("qrcodes").normalize();
             Files.createDirectories(directory);
-            Path file = directory.resolve(UUID.randomUUID() + "-registration.png");
+            Path file = directory.resolve(UUID.randomUUID() + "-" + purpose + ".png");
             QRCodeWriter writer = new QRCodeWriter();
             BitMatrix matrix = writer.encode(content, BarcodeFormat.QR_CODE, 300, 300);
             MatrixToImageWriter.writeToPath(matrix, "PNG", file);
