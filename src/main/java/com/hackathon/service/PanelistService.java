@@ -13,6 +13,7 @@ import com.hackathon.repository.FeedbackRepository;
 import com.hackathon.repository.PanelistInviteRepository;
 import com.hackathon.repository.PanelistRepository;
 import com.hackathon.repository.UserRepository;
+import com.hackathon.util.FrontendUrlBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,7 @@ public class PanelistService {
 
         panelistInviteRepository.save(invite);
 
-        String registrationUrl = frontendUrl + "/panelist/register?token=" + token;
+        String registrationUrl = FrontendUrlBuilder.build(frontendUrl, "/panelist/register?token=" + token);
         if (recipientEmail != null && !recipientEmail.isBlank()) {
             emailService.sendPanelistInvite(recipientEmail, registrationUrl);
         }

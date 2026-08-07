@@ -50,4 +50,7 @@ public class Event {
 
     /** QR code used by venue staff to open the participant check-in flow. */
     private String checkInQrCodeUrl;
+
+    /** Public frontend URL for the participant check-in page. */
+    private String checkInUrl;
 }

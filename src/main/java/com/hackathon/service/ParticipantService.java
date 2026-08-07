@@ -16,6 +16,7 @@ import com.hackathon.repository.EventRepository;
 import com.hackathon.repository.FeedbackRepository;
 import com.hackathon.repository.ParticipantRepository;
 import com.hackathon.repository.SquadMemberRepository;
+import com.hackathon.util.FrontendUrlBuilder;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -202,13 +203,7 @@ public class ParticipantService {
     }
 
     private String buildFrontendPath(String path) {
-        if (frontendUrl.isBlank()) {
-            return path;
-        }
-        if (frontendUrl.endsWith("/")) {
-            return frontendUrl.substring(0, frontendUrl.length() - 1) + path;
-        }
-        return frontendUrl + path;
+        return FrontendUrlBuilder.build(frontendUrl, path);
     }
 
     public List<Participant> findAll() {

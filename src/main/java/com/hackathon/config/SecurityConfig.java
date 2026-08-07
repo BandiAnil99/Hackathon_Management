@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/participants/register",
                                 "/participants/register",
+                                "/check-in",
                             "/api/participants/check-in/qr",
                             "/api/participants/check-in/verify",
                                 "/api/panelists/register/**",
