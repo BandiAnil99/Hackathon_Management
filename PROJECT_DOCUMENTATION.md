@@ -145,7 +145,7 @@ When an event is created via POST `/api/events`:
    - If today > `endDate` (or `startDate` if no `endDate`) → `CLOSED`
    - Otherwise → `OPEN`
 3. Event is saved to database
-4. Registration URL is constructed: `http://localhost:8080/participants/register?eventId={eventId}`
+4. Registration URL is constructed from `APP_FRONTEND_URL`, for example: `http://localhost:3000/participants/register?eventId={eventId}`
 5. QR code image is generated for the registration URL
 6. QR code is stored in `uploads/qrcodes/` folder
 7. Both `registrationUrl` and `qrCodeUrl` are persisted on the event record

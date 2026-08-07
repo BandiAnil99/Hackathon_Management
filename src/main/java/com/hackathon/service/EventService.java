@@ -31,11 +31,13 @@ public class EventService {
     private final FeedbackRepository feedbackRepository;
     private final QrCodeService qrCodeService;
     private final String baseUrl;
+    private final String frontendUrl;
 
     public EventService(EventRepository eventRepository, ParticipantRepository participantRepository,
                         SquadRepository squadRepository, SquadMemberRepository squadMemberRepository,
                         FeedbackRepository feedbackRepository, QrCodeService qrCodeService,
-                        @Value("${app.base-qr-url}") String baseUrl) {
+                        @Value("${app.base-qr-url}") String baseUrl,
+                        @Value("${app.frontend-url}") String frontendUrl) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.squadRepository = squadRepository;
@@ -43,6 +45,7 @@ public class EventService {
         this.feedbackRepository = feedbackRepository;
         this.qrCodeService = qrCodeService;
         this.baseUrl = baseUrl;
+        this.frontendUrl = frontendUrl;
     }
 
     // -------------------------------------------------------------------------
@@ -97,12 +100,18 @@ public class EventService {
                 .status(status)
                 .build();
         event = eventRepository.save(event);
-        String registrationUrl = baseUrl + "/participants/register?eventId=" + event.getId();
+        String registrationUrl = buildFrontendUrl("/participants/register?eventId=" + event.getId());
         String checkInQrLandingUrl = baseUrl + "/api/participants/check-in/qr?eventId=" + event.getId();
         event.setRegistrationUrl(registrationUrl);
         event.setQrCodeUrl(qrCodeService.generateQrCode(registrationUrl, "registration"));
         event.setCheckInQrCodeUrl(qrCodeService.generateQrCode(checkInQrLandingUrl, "check-in"));
         return eventRepository.save(event);
+    }
+
+    private String buildFrontendUrl(String path) {
+        return frontendUrl.endsWith("/")
+                ? frontendUrl.substring(0, frontendUrl.length() - 1) + path
+                : frontendUrl + path;
     }
 
     private void validateLocation(String location) {

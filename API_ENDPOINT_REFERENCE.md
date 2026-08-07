@@ -368,7 +368,7 @@ Response: `201 Created`
   "startDate": "2026-07-01",
   "endDate": "2026-07-02",
   "status": "OPEN",
-  "registrationUrl": "http://localhost:8080/participants/register?eventId=1",
+  "registrationUrl": "http://localhost:3000/participants/register?eventId=1",
   "qrCodeUrl": "http://localhost:8080/uploads/qrcodes/1-registration.png",
   "checkInQrCodeUrl": "http://localhost:8080/uploads/qrcodes/1-check-in.png"
 }
