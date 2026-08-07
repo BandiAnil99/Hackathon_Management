@@ -51,6 +51,12 @@ public class EventController {
         return eventService.update(id, request);
     }
 
+    @PostMapping("/{id}/qr-codes/regenerate")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Event regenerateQrCodes(@PathVariable Long id) {
+        return eventService.regenerateQrCodes(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ADMIN')")

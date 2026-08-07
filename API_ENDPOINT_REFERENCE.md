@@ -383,6 +383,14 @@ Notes:
 - `checkInQrCodeUrl` is the venue check-in QR and opens the email/code verification flow.
 - Both QR codes are auto-generated and stored in `/uploads/qrcodes/`.
 
+### Regenerate Event QR Codes
+
+`POST /api/events/{id}/qr-codes/regenerate`
+
+Access: Admin only
+
+Regenerates the registration and check-in QR images for an existing event. Use this after changing the public frontend or backend URL configuration.
+
 ### Get All Events
 
 `GET /api/events`

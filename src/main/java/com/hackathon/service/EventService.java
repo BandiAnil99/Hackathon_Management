@@ -100,12 +100,24 @@ public class EventService {
                 .status(status)
                 .build();
         event = eventRepository.save(event);
+        generateQrCodes(event);
+        return eventRepository.save(event);
+    }
+
+    /** Regenerates both QR images for an existing event without deleting prior images. */
+    @Transactional
+    public Event regenerateQrCodes(Long id) {
+        Event event = findById(id);
+        generateQrCodes(event);
+        return eventRepository.save(event);
+    }
+
+    private void generateQrCodes(Event event) {
         String registrationUrl = buildFrontendUrl("/participants/register?eventId=" + event.getId());
         String checkInQrLandingUrl = baseUrl + "/api/participants/check-in/qr?eventId=" + event.getId();
         event.setRegistrationUrl(registrationUrl);
         event.setQrCodeUrl(qrCodeService.generateQrCode(registrationUrl, "registration"));
         event.setCheckInQrCodeUrl(qrCodeService.generateQrCode(checkInQrLandingUrl, "check-in"));
-        return eventRepository.save(event);
     }
 
     private String buildFrontendUrl(String path) {
