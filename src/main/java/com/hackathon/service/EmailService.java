@@ -83,8 +83,10 @@ public class EmailService {
                     .sentTime(LocalDateTime.now())
                     .build());
         } catch (MailException ex) {
+            // Keep the exception in the server logs.  These sends are asynchronous, so a
+            // concise message alone makes SMTP authentication and TLS failures hard to diagnose.
             log.error("Email phase=send_failed participantId={} email={} reason={}", participantId, email,
-                    ex.getMessage());
+                    ex.getMessage(), ex);
         }
     }
 

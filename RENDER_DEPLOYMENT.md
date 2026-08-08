@@ -26,6 +26,13 @@ Render supplies `PORT`; the application now binds to it automatically. Do not se
 
 - Set `GEMINI_API_KEY` to enable AI resume analysis. Without it, only AI analysis requests fail; core event and participant APIs still run.
 - Set the `SMTP_*` values to enable registration emails and optional panelist invite emails.
+  For Gmail, use `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`,
+  `SMTP_STARTTLS=true`, `SMTP_STARTTLS_REQUIRED=true`, and
+  `SMTP_SSL_TRUST=smtp.gmail.com`. Put a newly generated Google **App Password**
+  (not the account password) in `SMTP_PASSWORD`, with all display spaces removed.
+  Set both `SMTP_USERNAME` and `SMTP_FROM` to that Gmail address. Set
+  `SMTP_DEBUG=true` temporarily to log the SMTP handshake when
+  troubleshooting, then set it back to `false`.
 - Set `ADMIN_SEED_ENABLED=true`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` only for the first deploy if an initial admin must be created. Disable the flag after that account exists.
 
 ## Panelist invites
