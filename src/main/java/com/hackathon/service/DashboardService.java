@@ -9,7 +9,6 @@ import com.hackathon.entity.Feedback;
 import com.hackathon.entity.Panelist;
 import com.hackathon.entity.Participant;
 import com.hackathon.exception.ResourceNotFoundException;
-import com.hackathon.repository.EmailLogRepository;
 import com.hackathon.repository.EventRepository;
 import com.hackathon.repository.FeedbackRepository;
 import com.hackathon.repository.PanelistRepository;
@@ -32,16 +31,13 @@ public class DashboardService {
     private final ParticipantRepository participantRepository;
     private final FeedbackRepository feedbackRepository;
     private final PanelistRepository panelistRepository;
-    private final EmailLogRepository emailLogRepository;
 
     public DashboardService(EventRepository eventRepository, ParticipantRepository participantRepository,
-                            FeedbackRepository feedbackRepository, PanelistRepository panelistRepository,
-                            EmailLogRepository emailLogRepository) {
+                            FeedbackRepository feedbackRepository, PanelistRepository panelistRepository) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.feedbackRepository = feedbackRepository;
         this.panelistRepository = panelistRepository;
-        this.emailLogRepository = emailLogRepository;
     }
 
     public DashboardSummary summary() {
@@ -50,8 +46,7 @@ public class DashboardService {
                 participantRepository.count(),
                 0,
                 0,
-                feedbackRepository.count(),
-                emailLogRepository.count()
+                feedbackRepository.count()
         );
     }
 

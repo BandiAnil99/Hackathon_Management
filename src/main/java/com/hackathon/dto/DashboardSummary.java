@@ -5,7 +5,6 @@ public record DashboardSummary(
         long participants,
         long checkedIn,
         long assigned,
-        long feedbackSubmitted,
-        long emailsSent
+        long feedbackSubmitted
 ) {
 }

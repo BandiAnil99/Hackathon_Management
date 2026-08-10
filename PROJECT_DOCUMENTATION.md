@@ -1391,8 +1391,7 @@ Response `200 OK`:
   "participants": 2,
   "checkedIn": 1,
   "assigned": 1,
-  "feedbackSubmitted": 1,
-  "emailsSent": 2
+  "feedbackSubmitted": 1
 }
 ```
 

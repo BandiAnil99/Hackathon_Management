@@ -1,6 +1,8 @@
 package com.hackathon.controller;
 
 import com.hackathon.dto.DashboardSummary;
+import com.hackathon.dto.EventFeedbackInsightsResponse;
+import com.hackathon.service.EventFeedbackService;
 import com.hackathon.dto.PanelistDashboardResponse;
 import com.hackathon.service.DashboardService;
 import java.security.Principal;
@@ -15,15 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class DashboardController {
 
     private final DashboardService dashboardService;
+    private final EventFeedbackService eventFeedbackService;
 
-    public DashboardController(DashboardService dashboardService) {
+    public DashboardController(DashboardService dashboardService, EventFeedbackService eventFeedbackService) {
         this.dashboardService = dashboardService;
+        this.eventFeedbackService = eventFeedbackService;
     }
 
     @GetMapping("/summary")
     @PreAuthorize("hasRole('ADMIN')")
     public DashboardSummary summary() {
         return dashboardService.summary();
+    }
+
+    @GetMapping("/events/{eventId}/feedback-insights")
+    @PreAuthorize("hasRole('ADMIN')")
+    public EventFeedbackInsightsResponse feedbackInsights(@PathVariable Long eventId) {
+        return eventFeedbackService.insights(eventId);
     }
 
     @GetMapping("/panelist/me")

@@ -66,6 +66,10 @@ public class EmailService {
     }
 
     private void sendAndLog(Long participantId, String email, String subject, String body) {
+        if (email == null || email.isBlank()) {
+            log.warn("Email phase=skipped reason=blank_recipient participantId={}", participantId);
+            return;
+        }
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             if (fromAddress != null && !fromAddress.isBlank()) {

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.hackathon.dto.PanelistDashboardEventSummary;
 import com.hackathon.dto.PanelistDashboardResponse;
 import com.hackathon.service.DashboardService;
+import com.hackathon.service.EventFeedbackService;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,11 +27,14 @@ class DashboardControllerTest {
     @Mock
     private DashboardService dashboardService;
 
+    @Mock
+    private EventFeedbackService eventFeedbackService;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new DashboardController(dashboardService)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new DashboardController(dashboardService, eventFeedbackService)).build();
     }
 
     @Test

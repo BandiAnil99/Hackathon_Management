@@ -44,7 +44,8 @@ export default api;
 3. Endpoints mapping (Frontend pages → backend endpoints)
 
 - Dashboard (`/dashboard` page)
-  - GET `/api/dashboard/summary` -> { events, participants, checkedIn, assigned, feedbackSubmitted, emailsSent }
+  - GET `/api/dashboard/summary` -> { events, participants, checkedIn, assigned, feedbackSubmitted }
+  - GET `/api/dashboard/events/{eventId}/feedback-insights` -> event strengths, improvement areas, response count, and recent comments (ADMIN)
 
 - Events
   - GET `/api/events` -> list events
@@ -73,6 +74,10 @@ export default api;
 - Feedback
   - POST `/api/feedback` -> submit feedback
   - GET `/api/feedback`
+
+- Event feedback (public QR form)
+  - POST `/api/event-feedback` -> submit anonymous event feedback
+  - Every event includes `feedbackUrl` and `feedbackQrCodeUrl`; regenerate with POST `/api/events/{id}/qr-codes/regenerate` after changing the frontend URL.
 
 - Squads
   - POST `/api/squads` -> create squad

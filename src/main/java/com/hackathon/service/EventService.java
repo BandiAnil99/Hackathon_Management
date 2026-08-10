@@ -9,6 +9,7 @@ import com.hackathon.entity.Squad;
 import com.hackathon.exception.BadRequestException;
 import com.hackathon.exception.ResourceNotFoundException;
 import com.hackathon.repository.EventRepository;
+import com.hackathon.repository.EventFeedbackRepository;
 import com.hackathon.repository.FeedbackRepository;
 import com.hackathon.repository.ParticipantRepository;
 import com.hackathon.repository.SquadMemberRepository;
@@ -30,18 +31,21 @@ public class EventService {
     private final SquadRepository squadRepository;
     private final SquadMemberRepository squadMemberRepository;
     private final FeedbackRepository feedbackRepository;
+    private final EventFeedbackRepository eventFeedbackRepository;
     private final QrCodeService qrCodeService;
     private final String frontendUrl;
 
     public EventService(EventRepository eventRepository, ParticipantRepository participantRepository,
                         SquadRepository squadRepository, SquadMemberRepository squadMemberRepository,
-                        FeedbackRepository feedbackRepository, QrCodeService qrCodeService,
+                        FeedbackRepository feedbackRepository, EventFeedbackRepository eventFeedbackRepository,
+                        QrCodeService qrCodeService,
                         @Value("${app.frontend-url}") String frontendUrl) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.squadRepository = squadRepository;
         this.squadMemberRepository = squadMemberRepository;
         this.feedbackRepository = feedbackRepository;
+        this.eventFeedbackRepository = eventFeedbackRepository;
         this.qrCodeService = qrCodeService;
         this.frontendUrl = frontendUrl;
     }
@@ -102,7 +106,7 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    /** Regenerates both QR images for an existing event without deleting prior images. */
+    /** Regenerates all public QR images for an existing event without deleting prior images. */
     @Transactional
     public Event regenerateQrCodes(Long id) {
         Event event = findById(id);
@@ -113,10 +117,13 @@ public class EventService {
     private void generateQrCodes(Event event) {
         String registrationUrl = buildFrontendUrl("/participants/register?eventId=" + event.getId());
         String checkInUrl = buildFrontendUrl("/check-in?eventId=" + event.getId());
+        String feedbackUrl = buildFrontendUrl("/feedback?eventId=" + event.getId());
         event.setRegistrationUrl(registrationUrl);
         event.setQrCodeUrl(qrCodeService.generateQrCode(registrationUrl, "registration"));
         event.setCheckInUrl(checkInUrl);
         event.setCheckInQrCodeUrl(qrCodeService.generateQrCode(checkInUrl, "check-in"));
+        event.setFeedbackUrl(feedbackUrl);
+        event.setFeedbackQrCodeUrl(qrCodeService.generateQrCode(feedbackUrl, "feedback"));
     }
 
     private String buildFrontendUrl(String path) {
@@ -198,6 +205,8 @@ public class EventService {
             squadMemberRepository.deleteByParticipantId(participantId);
             participantRepository.delete(participant);
         }
+
+        eventFeedbackRepository.deleteByEventId(id);
 
         eventRepository.delete(event);
     }

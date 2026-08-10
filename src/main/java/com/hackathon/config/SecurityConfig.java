@@ -49,6 +49,7 @@ public class SecurityConfig {
                             "/api/participants/check-in/verify",
                                 "/api/panelists/register/**",
                                 "/api/panelists/invite/validate/**",
+                                "/api/event-feedback",
                                 "/api/system/keep-alive",
                                 "/uploads/**",
                                 "/swagger-ui/**",

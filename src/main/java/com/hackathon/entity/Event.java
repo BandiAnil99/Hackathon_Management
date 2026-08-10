@@ -53,4 +53,10 @@ public class Event {
 
     /** Public frontend URL for the participant check-in page. */
     private String checkInUrl;
+
+    /** QR code that opens the public post-event feedback form. */
+    private String feedbackQrCodeUrl;
+
+    /** Public frontend URL for the post-event feedback form. */
+    private String feedbackUrl;
 }

@@ -178,8 +178,7 @@ Detailed field values are stored dynamically in `participant_feedback_details` b
   "participants": 35,
   "checkedIn": 0,
   "assigned": 0,
-  "feedbackSubmitted": 18,
-  "emailsSent": 35
+  "feedbackSubmitted": 18
 }
 ```
 
