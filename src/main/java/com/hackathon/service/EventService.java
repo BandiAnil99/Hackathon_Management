@@ -34,12 +34,14 @@ public class EventService {
     private final EventFeedbackRepository eventFeedbackRepository;
     private final QrCodeService qrCodeService;
     private final String frontendUrl;
+    private final String baseUrl;
 
     public EventService(EventRepository eventRepository, ParticipantRepository participantRepository,
                         SquadRepository squadRepository, SquadMemberRepository squadMemberRepository,
                         FeedbackRepository feedbackRepository, EventFeedbackRepository eventFeedbackRepository,
                         QrCodeService qrCodeService,
-                        @Value("${app.frontend-url}") String frontendUrl) {
+                        @Value("${app.frontend-url}") String frontendUrl,
+                        @Value("${app.base-url}") String baseUrl) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.squadRepository = squadRepository;
@@ -48,6 +50,7 @@ public class EventService {
         this.eventFeedbackRepository = eventFeedbackRepository;
         this.qrCodeService = qrCodeService;
         this.frontendUrl = frontendUrl;
+        this.baseUrl = baseUrl;
     }
 
     // -------------------------------------------------------------------------
@@ -119,15 +122,20 @@ public class EventService {
         String checkInUrl = buildFrontendUrl("/check-in?eventId=" + event.getId());
         String feedbackUrl = buildFrontendUrl("/feedback?eventId=" + event.getId());
         event.setRegistrationUrl(registrationUrl);
-        event.setQrCodeUrl(qrCodeService.generateQrCode(registrationUrl, "registration"));
+        event.setQrCodeUrl(buildPublicUploadUrl(qrCodeService.generateQrCode(registrationUrl, "registration")));
         event.setCheckInUrl(checkInUrl);
-        event.setCheckInQrCodeUrl(qrCodeService.generateQrCode(checkInUrl, "check-in"));
+        event.setCheckInQrCodeUrl(buildPublicUploadUrl(qrCodeService.generateQrCode(checkInUrl, "check-in")));
         event.setFeedbackUrl(feedbackUrl);
-        event.setFeedbackQrCodeUrl(qrCodeService.generateQrCode(feedbackUrl, "feedback"));
+        event.setFeedbackQrCodeUrl(buildPublicUploadUrl(qrCodeService.generateQrCode(feedbackUrl, "feedback")));
     }
 
     private String buildFrontendUrl(String path) {
         return FrontendUrlBuilder.build(frontendUrl, path);
+    }
+
+    /** QR image files are hosted by the backend, not by the Netlify frontend. */
+    private String buildPublicUploadUrl(String relativeUploadPath) {
+        return FrontendUrlBuilder.build(baseUrl, relativeUploadPath);
     }
 
     private void validateLocation(String location) {
